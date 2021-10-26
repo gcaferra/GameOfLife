@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
@@ -31,38 +32,29 @@ namespace GameOfLife.Test
             sut.IsAlive(0,0).ShouldBe(false);
             sut.IsAlive(0,1).ShouldBe(true);
         }
-    }
 
-    public class Board
-    {
-        readonly bool[,] _board;
-
-        public Board(bool[,] board)
+        [Theory]
+        [MemberData(nameof(AliveNeighboursTestData))]
+        public void the_Board_can_say_if_a_neighbours_is_Alive(bool[,] testData)
         {
-            _board = board;
+            var sut = new Board(testData);
+
+            sut.HasAliveNeighbour(0,0, 1).ShouldBe(true);
         }
 
-        public int Length => _board.Length;
-
-        public bool IsAlive(int row, int column)
+        public static IEnumerable<object[]> AliveNeighboursTestData()
         {
-            return _board[row, column];
-        }
-    }
-
-
-    
-    public class BoardGenerator
-    {
-        public Board Generate()
-        {
-            return new Board(new[,]
+            yield return new object[] {new[,]{{false, true}}};
+            yield return new object[] {new[,]
             {
-                {false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false},
-                {false, false, false, false, false, false, false, false},
-            });
+                {false, false},
+                {true, false}
+            }};
+            yield return new object[] {new[,]
+            {
+                {false, false},
+                {false, true}
+            }};
         }
     }
 }

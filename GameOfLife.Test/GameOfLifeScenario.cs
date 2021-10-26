@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 
@@ -7,7 +8,7 @@ namespace GameOfLife.Test
     public class GameOfLifeScenario
     {
         [Fact]
-        public void the_board_8x4_is_generated()
+        void the_board_8x4_is_generated()
         {
             var sut = new BoardGenerator();
 
@@ -17,7 +18,7 @@ namespace GameOfLife.Test
         }
 
         [Fact]
-        public void BoardGenerator_return_a_Board_class()
+        void BoardGenerator_return_a_Board_class()
         {
             var sut = new BoardGenerator();
 
@@ -25,7 +26,7 @@ namespace GameOfLife.Test
         }
 
         [Fact]
-        public void the_Board_can_say_if_a_Cell_is_Alive_or_Not()
+        void the_Board_can_say_if_a_Cell_is_Alive_or_Not()
         {
             var sut = new Board(new[,]{{false, true}});
 
@@ -35,7 +36,7 @@ namespace GameOfLife.Test
 
         [Theory]
         [MemberData(nameof(AliveNeighboursTestData))]
-        public void the_Board_can_say_if_a_neighbours_is_Alive(bool[,] testData)
+        void the_Board_can_say_if_a_neighbours_is_Alive(bool[,] testData)
         {
             var sut = new Board(testData);
 
@@ -59,7 +60,7 @@ namespace GameOfLife.Test
         
         [Theory]
         [MemberData(nameof(DiedNeighboursTestData))]
-        public void the_Board_search_the_neighbour_cell_only(bool[,] testData)
+        void the_Board_search_the_neighbour_cell_only(bool[,] testData)
         {
             var sut = new Board(testData);
 
@@ -88,6 +89,18 @@ namespace GameOfLife.Test
                 {false, false, false, true},
 
             }};
+        }
+
+        [Fact]
+        void the_GameEngine_uses_the_Board()
+        {
+            var board = Substitute.For<IBoard>();
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received().HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
     }
 }

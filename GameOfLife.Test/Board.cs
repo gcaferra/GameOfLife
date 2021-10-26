@@ -3,7 +3,14 @@ using System.Linq;
 
 namespace GameOfLife.Test
 {
-    public class Board
+    public interface IBoard
+    {
+        int Length { get; }
+        bool IsAlive(int row, int column);
+        bool HasAliveNeighbour(int row, int column, int count);
+    }
+
+    public class Board : IBoard
     {
         readonly bool[,] _board;
 

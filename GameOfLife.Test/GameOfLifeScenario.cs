@@ -164,5 +164,37 @@ namespace GameOfLife.Test
             board.Received().SetNextVersionCellStatus(0,0, false);
 
         }
+
+        [Fact]
+        void Any_live_cell_with_fewer_than_two_live_neighbours_dies()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(1);
+            board.Columns.Returns(1);
+            board.IsAlive(0, 0).Returns(true);
+            board.HasAliveNeighbour(0, 0).Returns(2);
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received().SetNextVersionCellStatus(0,0, false);
+
+        }
+
+        [Fact]
+        void Any_live_cell_with_more_than_three_live_neighbours_dies()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(1);
+            board.Columns.Returns(1);
+            board.IsAlive(0, 0).Returns(true);
+            board.HasAliveNeighbour(0, 0).Returns(3);
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+            
+            board.Received().SetNextVersionCellStatus(0,0, false);
+
+        }
     }
 }

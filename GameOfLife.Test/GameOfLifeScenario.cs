@@ -56,5 +56,38 @@ namespace GameOfLife.Test
                 {false, true}
             }};
         }
+        
+        [Theory]
+        [MemberData(nameof(DiedNeighboursTestData))]
+        public void the_Board_search_the_neighbour_cell_only(bool[,] testData)
+        {
+            var sut = new Board(testData);
+
+            sut.HasAliveNeighbour(1,1, 0).ShouldBe(true);
+        }
+
+        public static IEnumerable<object[]> DiedNeighboursTestData()
+        {
+            yield return new object[] {new[,]
+            {
+                {false, false, false},
+                {false, false, false},
+                {false, false, false},
+            }};
+            yield return new object[] {new[,]
+            {
+                {false, false, false},
+                {false, false, false},
+                {false, false, false},
+                {true, true, false}
+            }};
+            yield return new object[] {new[,]
+            {
+                {false, false, false, true},
+                {false, false, false, true},
+                {false, false, false, true},
+
+            }};
+        }
     }
 }

@@ -21,10 +21,6 @@
                     }
                 }
             }
-
-            
-            
-            _board.HasAliveNeighbour(0, 0);
         }
     }
 }

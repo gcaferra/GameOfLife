@@ -92,27 +92,17 @@ namespace GameOfLife.Test
         }
 
         [Fact]
-        void the_GameEngine_uses_the_Board()
-        {
-            var board = Substitute.For<IBoard>();
-            
-            var sut = new GameEngine(board);
-
-            sut.NextGeneration();
-
-            board.Received().HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>());
-        }
-
-        [Fact]
         void Liveness_of_Cell_is_asked()
         {
             var board = Substitute.For<IBoard>();
+            board.Rows.Returns(1);
+            board.Columns.Returns(1);
             
             var sut = new GameEngine(board);
 
             sut.NextGeneration();
 
-            board.Received().IsAlive(0,0);
+            board.Received().IsAlive(Arg.Any<int>(),Arg.Any<int>());
         }
 
         [Fact]
@@ -126,15 +116,15 @@ namespace GameOfLife.Test
 
             sut.NextGeneration();
 
-            board.Received(9).IsAlive(0,0);
+            board.Received(9).IsAlive(Arg.Any<int>(),Arg.Any<int>());
         }
 
         [Fact]
         void for_a_Live_cell_all_Neighbours_are_checked()
         {
             var board = Substitute.For<IBoard>();
-            board.Rows.Returns(0);
-            board.Columns.Returns(0);
+            board.Rows.Returns(1);
+            board.Columns.Returns(1);
             board.IsAlive(0, 0).Returns(true);
             
             var sut = new GameEngine(board);
@@ -142,6 +132,21 @@ namespace GameOfLife.Test
             sut.NextGeneration();
 
             board.Received(1).HasAliveNeighbour(0, 0);
+        }
+
+        [Fact]
+        void for_all_Live_cell_all_Neighbours_are_checked()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(3);
+            board.Columns.Returns(3);
+            board.IsAlive(0, 0).ReturnsForAnyArgs(true);
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received(9).HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>());
         }
     }
 }

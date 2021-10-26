@@ -6,8 +6,10 @@ namespace GameOfLife.Test
     public interface IBoard
     {
         int Length { get; }
+        int Rows { get; }
+        int Columns { get;  }
         bool IsAlive(int row, int column);
-        bool HasAliveNeighbour(int row, int column, int count);
+        bool HasAliveNeighbour(int row, int column);
     }
 
     public class Board : IBoard
@@ -17,9 +19,13 @@ namespace GameOfLife.Test
         public Board(bool[,] board)
         {
             _board = board;
+            Rows = _board.GetUpperBound(0);
+            Columns = _board.GetUpperBound(1);
         }
 
         public int Length => _board.Length;
+        public int Rows { get; }
+        public int Columns { get; }
 
         public bool IsAlive(int row, int column)
         {
@@ -31,7 +37,7 @@ namespace GameOfLife.Test
             return _board[row, column];
         }
 
-        public bool HasAliveNeighbour(int row, int column, int count)
+        public bool HasAliveNeighbour(int row, int column)
         {
             List<bool> alives = new List<bool>()
             {

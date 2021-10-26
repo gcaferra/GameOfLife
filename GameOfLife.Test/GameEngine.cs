@@ -11,9 +11,17 @@
 
         public void NextGeneration()
         {
-            _board.IsAlive(0, 0);
+            for (var row = 0; row < _board.Rows; row++)
+            {
+                for (var column = 0; column < _board.Columns; column++)
+                {
+                    _board.IsAlive(0, 0);
+                }
+            }
+
             
-            _board.HasAliveNeighbour(0, 0, 0);
+            
+            _board.HasAliveNeighbour(0, 0);
         }
     }
 }

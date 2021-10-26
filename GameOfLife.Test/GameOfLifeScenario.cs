@@ -40,7 +40,7 @@ namespace GameOfLife.Test
         {
             var sut = new Board(testData);
 
-            sut.HasAliveNeighbour(0,0, 1).ShouldBe(true);
+            sut.HasAliveNeighbour(0,0).ShouldBe(true);
         }
 
         public static IEnumerable<object[]> AliveNeighboursTestData()
@@ -64,7 +64,7 @@ namespace GameOfLife.Test
         {
             var sut = new Board(testData);
 
-            sut.HasAliveNeighbour(1,1, 0).ShouldBe(true);
+            sut.HasAliveNeighbour(1,1).ShouldBe(true);
         }
 
         public static IEnumerable<object[]> DiedNeighboursTestData()
@@ -100,11 +100,11 @@ namespace GameOfLife.Test
 
             sut.NextGeneration();
 
-            board.Received().HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            board.Received().HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>());
         }
 
         [Fact]
-        void Any_live_cell_with_fewer_than_two_live_neighbours_dies()
+        void Liveness_of_Cell_is_asked()
         {
             var board = Substitute.For<IBoard>();
             
@@ -113,6 +113,20 @@ namespace GameOfLife.Test
             sut.NextGeneration();
 
             board.Received().IsAlive(0,0);
+        }
+
+        [Fact]
+        void IsAlive_is_Called_for_each_Cell_in_the_Board()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(3);
+            board.Columns.Returns(3);
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received(9).IsAlive(0,0);
         }
     }
 }

@@ -22,6 +22,15 @@ namespace GameOfLife.Test
 
             sut.Generate().ShouldBeOfType<Board>();
         }
+
+        [Fact]
+        public void the_Board_can_say_if_a_Cell_is_Alive_or_Not()
+        {
+            var sut = new Board(new[,]{{false, true}});
+
+            sut.IsAlive(0,0).ShouldBe(false);
+            sut.IsAlive(0,1).ShouldBe(true);
+        }
     }
 
     public class Board
@@ -34,6 +43,11 @@ namespace GameOfLife.Test
         }
 
         public int Length => _board.Length;
+
+        public bool IsAlive(int row, int column)
+        {
+            return _board[row, column];
+        }
     }
 
 

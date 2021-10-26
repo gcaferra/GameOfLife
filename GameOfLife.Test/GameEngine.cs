@@ -15,7 +15,10 @@
             {
                 for (var column = 0; column < _board.Columns; column++)
                 {
-                    _board.IsAlive(0, 0);
+                    if (_board.IsAlive(row, column))
+                    {
+                        _board.HasAliveNeighbour(row, column);
+                    }
                 }
             }
 

@@ -128,5 +128,20 @@ namespace GameOfLife.Test
 
             board.Received(9).IsAlive(0,0);
         }
+
+        [Fact]
+        void for_a_Live_cell_all_Neighbours_are_checked()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(0);
+            board.Columns.Returns(0);
+            board.IsAlive(0, 0).Returns(true);
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received(1).HasAliveNeighbour(0, 0);
+        }
     }
 }

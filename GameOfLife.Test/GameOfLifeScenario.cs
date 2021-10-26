@@ -102,5 +102,17 @@ namespace GameOfLife.Test
 
             board.Received().HasAliveNeighbour(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
+
+        [Fact]
+        void Any_live_cell_with_fewer_than_two_live_neighbours_dies()
+        {
+            var board = Substitute.For<IBoard>();
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+
+            board.Received().IsAlive(0,0);
+        }
     }
 }

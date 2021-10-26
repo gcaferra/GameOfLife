@@ -17,7 +17,8 @@
                 {
                     if (_board.IsAlive(row, column))
                     {
-                        _board.HasAliveNeighbour(row, column);
+                        var count = _board.HasAliveNeighbour(row, column);
+                        _board.SetNextVersionCellStatus(row, column, false);
                     }
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameOfLife.Test
@@ -9,12 +10,14 @@ namespace GameOfLife.Test
         int Rows { get; }
         int Columns { get;  }
         bool IsAlive(int row, int column);
-        bool HasAliveNeighbour(int row, int column);
+        int HasAliveNeighbour(int row, int column);
+        void SetNextVersionCellStatus(int row, int column, bool newStatus);
     }
 
     public class Board : IBoard
     {
         readonly bool[,] _board;
+        bool[,] _nextGenerationBoard;
 
         public Board(bool[,] board)
         {
@@ -37,7 +40,7 @@ namespace GameOfLife.Test
             return _board[row, column];
         }
 
-        public bool HasAliveNeighbour(int row, int column)
+        public int HasAliveNeighbour(int row, int column)
         {
             List<bool> alives = new List<bool>()
             {
@@ -50,7 +53,18 @@ namespace GameOfLife.Test
                 IsAlive(row + 1 , column),
                 IsAlive(row + 1 , column + 1)
             };
-            return alives.Any();
+            return alives.Count(x => x);
+        }
+
+        public void SetNextVersionCellStatus(int row, int column, bool newStatus)
+        {
+            if (_nextGenerationBoard == null)
+            {
+                _nextGenerationBoard = new bool[_board.GetUpperBound(0),_board.GetUpperBound(1)];
+                Array.Copy(_board, _nextGenerationBoard, _board.Length);
+            }
+
+            _nextGenerationBoard[row, column] = newStatus;
         }
     }
 }

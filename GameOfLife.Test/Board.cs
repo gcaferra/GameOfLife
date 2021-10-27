@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GameOfLife.Test
@@ -16,15 +15,16 @@ namespace GameOfLife.Test
     }
 
     public class Board : IBoard
-    { 
-        bool[,] _board;
-        bool[,] _nextGenerationBoard;
+    {
+        readonly bool[,] _board;
+        readonly bool[,] _next;
 
         public Board(bool[,] board)
         {
             _board = board;
-            Rows = _board.GetUpperBound(0);
-            Columns = _board.GetUpperBound(1);
+            Rows = _board.GetUpperBound(0) + 1;
+            Columns = _board.GetUpperBound(1) + 1;
+            _next = new bool[Rows, Columns];
         }
 
         public int Length => _board.Length;
@@ -43,7 +43,7 @@ namespace GameOfLife.Test
 
         public int HasAliveNeighbour(int row, int column)
         {
-            List<bool> alives = new List<bool>()
+            List<bool> alives = new List<bool>
             {
                 IsAlive(row - 1, column - 1),
                 IsAlive(row  - 1, column),
@@ -59,18 +59,23 @@ namespace GameOfLife.Test
 
         public void SetNextVersionCellStatus(int row, int column, bool newStatus)
         {
-            if (_nextGenerationBoard == null)
-            {
-                _nextGenerationBoard = new bool[_board.GetUpperBound(0),_board.GetUpperBound(1)];
-                Array.Copy(_board, _nextGenerationBoard, _board.Length);
-            }
-
-            _nextGenerationBoard[row, column] = newStatus;
+            _next[row, column] = newStatus;
         }
 
         public void Commit()
         {
-            Array.Copy(_nextGenerationBoard, _board, _board.Length);
+            CopyArray(_next,_board);
+        }
+
+        static void CopyArray(bool[,] source, bool[,] destination)
+        {
+            for (var row = 0; row < source.GetUpperBound(0) + 1; row++)
+            {
+                for (var column = 0; column < source.GetUpperBound(1) + 1; column++)
+                {
+                    destination[row, column] = source[row, column] ;
+                }
+            }
         }
     }
 }

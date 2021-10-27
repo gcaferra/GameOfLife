@@ -92,6 +92,22 @@ namespace GameOfLife.Test
         }
 
         [Fact]
+        void Border_cell_should_have_three_neighbours()
+        {
+            var board = new Board(new[,]
+            {
+                {false, false, true},
+                {false, true, true},
+                {false, false, false},
+            });
+            
+            
+            board.HasAliveNeighbour(0,2).ShouldBe(2);
+
+            
+        }
+
+        [Fact]
         void Liveness_of_Cell_is_asked()
         {
             var board = Substitute.For<IBoard>();
@@ -172,7 +188,7 @@ namespace GameOfLife.Test
             board.Rows.Returns(1);
             board.Columns.Returns(1);
             board.IsAlive(0, 0).Returns(true);
-            board.HasAliveNeighbour(0, 0).Returns(2);
+            board.HasAliveNeighbour(0, 0).Returns(1);
             var sut = new GameEngine(board);
 
             sut.NextGeneration();
@@ -188,7 +204,7 @@ namespace GameOfLife.Test
             board.Rows.Returns(1);
             board.Columns.Returns(1);
             board.IsAlive(0, 0).Returns(true);
-            board.HasAliveNeighbour(0, 0).Returns(3);
+            board.HasAliveNeighbour(0, 0).Returns(4);
             var sut = new GameEngine(board);
 
             sut.NextGeneration();
@@ -243,6 +259,34 @@ namespace GameOfLife.Test
             sut.NextGeneration();
             
             board.Received().Commit();
+
+        }
+
+        [Fact]
+        void the_NextGeneration_is_correctly_created_using_all_rules()
+        {
+            var board = new Board(new[,]
+            {
+                {false, false, true},
+                {false, true, true},
+                {false, false, false},
+            });
+            
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+            
+            board.ShouldSatisfyAllConditions(
+                () => board.IsAlive(0, 0).ShouldBeFalse(),
+                () => board.IsAlive(0, 1).ShouldBeTrue(),
+                () => board.IsAlive(0, 2).ShouldBeTrue(),
+                () => board.IsAlive(1, 0).ShouldBeFalse(),
+                () => board.IsAlive(1, 1).ShouldBeTrue(),
+                () => board.IsAlive(1, 2).ShouldBeTrue(),
+                () => board.IsAlive(2, 0).ShouldBeFalse(),
+                () => board.IsAlive(2, 1).ShouldBeFalse(),
+                () => board.IsAlive(2, 2).ShouldBeFalse()
+                 );
 
         }
     }

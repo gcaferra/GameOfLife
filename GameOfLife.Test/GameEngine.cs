@@ -24,6 +24,13 @@
                         }
                         _board.SetNextVersionCellStatus(row, column, false);
                     }
+                    else
+                    {
+                        if (_board.HasAliveNeighbour(row, column) == 3)
+                        {
+                            _board.SetNextVersionCellStatus(row, column, true);
+                        }
+                    }
                 }
             }
         }

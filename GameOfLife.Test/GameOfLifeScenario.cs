@@ -10,7 +10,7 @@ namespace GameOfLife.Test
         [Fact]
         void the_board_8x4_is_generated()
         {
-            var sut = new BoardGenerator();
+            var sut = new BoardGenerator(4,8);
 
             var board = sut.Generate();
             
@@ -20,9 +20,22 @@ namespace GameOfLife.Test
         [Fact]
         void BoardGenerator_return_a_Board_class()
         {
-            var sut = new BoardGenerator();
+            var sut = new BoardGenerator(1,1);
 
             sut.Generate().ShouldBeOfType<Board>();
+        }
+
+        [Fact]
+        void BoardGenerator_create_a_board_based_on_specified_constructor_values()
+        {
+            var rows = 4;
+            var columns = 15;
+            var sut = new BoardGenerator(rows,columns);
+
+            var board = sut.Generate();
+            
+            board.Columns.ShouldBe(columns);
+            board.Rows.ShouldBe(rows);
         }
 
         [Fact]

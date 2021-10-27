@@ -229,5 +229,21 @@ namespace GameOfLife.Test
             board.Received().SetNextVersionCellStatus(0,0, true);
 
         }
+
+        [Fact]
+        void After_create_the_new_generation_the_Board_is_committed()
+        {
+            var board = Substitute.For<IBoard>();
+            board.Rows.Returns(1);
+            board.Columns.Returns(1);
+            board.IsAlive(0, 0).Returns(false);
+            board.HasAliveNeighbour(0, 0).Returns(3);
+            var sut = new GameEngine(board);
+
+            sut.NextGeneration();
+            
+            board.Received().Commit();
+
+        }
     }
 }

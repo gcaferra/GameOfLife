@@ -12,11 +12,12 @@ namespace GameOfLife.Test
         bool IsAlive(int row, int column);
         int HasAliveNeighbour(int row, int column);
         void SetNextVersionCellStatus(int row, int column, bool newStatus);
+        void Commit();
     }
 
     public class Board : IBoard
-    {
-        readonly bool[,] _board;
+    { 
+        bool[,] _board;
         bool[,] _nextGenerationBoard;
 
         public Board(bool[,] board)
@@ -65,6 +66,11 @@ namespace GameOfLife.Test
             }
 
             _nextGenerationBoard[row, column] = newStatus;
+        }
+
+        public void Commit()
+        {
+            Array.Copy(_nextGenerationBoard, _board, _board.Length);
         }
     }
 }

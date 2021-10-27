@@ -5,8 +5,4 @@
     &lt;TestId&gt;xUnit::11B40799-68FB-46FE-9133-0AAC8C7C23B0::net5.0::GameOfLife.Test.GameOfLifeScenario&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f3d7682c_002D820b_002D4ea5_002D87ba_002D5a49e79dd85b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="the_board_8x4_is_generated #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::11B40799-68FB-46FE-9133-0AAC8C7C23B0::net5.0::GameOfLife.Test.GameOfLifeScenario.the_board_8x4_is_generated&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+	</wpf:ResourceDictionary>

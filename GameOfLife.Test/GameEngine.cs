@@ -18,6 +18,10 @@
                     if (_board.IsAlive(row, column))
                     {
                         var count = _board.HasAliveNeighbour(row, column);
+                        if (count is 2 or 3)
+                        {
+                            _board.SetNextVersionCellStatus(row, column, true);
+                        }
                         _board.SetNextVersionCellStatus(row, column, false);
                     }
                 }

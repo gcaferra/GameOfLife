@@ -1,6 +1,9 @@
-﻿namespace GameOfLife.Test
+﻿using System;
+using System.Linq;
+
+namespace GameOfLife
 {
-    internal class GameEngine
+    public class GameEngine
     {
         readonly IBoard _board;
 
@@ -30,6 +33,23 @@
                 }
             }
             _board.Commit();
+        }
+
+        public string[] Render()
+        {
+            var render = new string[_board.Rows];
+            
+            for (var row = 0; row < _board.Rows; row++)
+            {
+                var line = string.Empty;
+                for (var column = 0; column < _board.Columns; column++)
+                {
+                    line = string.Concat(line, _board.IsAlive(row, column) ? "*" : ".");
+                }
+                render[row] = line;
+            }
+
+            return render;
         }
     }
 }

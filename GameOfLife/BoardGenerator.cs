@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameOfLife.Test
+namespace GameOfLife
 {
     public class BoardGenerator
     {

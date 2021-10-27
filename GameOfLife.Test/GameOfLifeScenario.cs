@@ -302,5 +302,25 @@ namespace GameOfLife.Test
                  );
 
         }
+
+        [Fact]
+        void GameEngine_render_to_string()
+        {
+            var board = new Board(new[,]
+            {
+                {false, false, true},
+                {false, true, true},
+                {false, false, false},
+            });
+            
+            var sut = new GameEngine(board);
+
+            sut.Render().ShouldBe(new[]
+            {
+                "..*",
+                ".**",
+                "...",
+            });
+        }
     }
 }

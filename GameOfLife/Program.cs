@@ -5,32 +5,38 @@ namespace GameOfLife
 {
     class Program
     {
+        static int _origRow;
+        static int _origCol;
+
         static void Main(string[] args)
         {
             var gameEngine = new GameEngine(new BoardGenerator(10, 10).Generate());
             
-            Console.WriteLine("Press Any key to exit...");
-            
-            while (true)
+            Console.WriteLine("Press ESC to stop");
+
+            _origRow = Console.CursorTop + 1;
+            _origCol = Console.CursorLeft;
+
+            do
             {
-                while(!Console.KeyAvailable)
+                while (!Console.KeyAvailable)
                 {
                     gameEngine.NextGeneration();
-                    foreach (var line in gameEngine.Render())
-                    {
-                        Console.WriteLine(line);   
-                    }
+                    RenderNewGeneration(gameEngine.Render());
                     Thread.Sleep(TimeSpan.FromSeconds(1));
-                    Console.WriteLine();
                 }
-                
-                var k = Console.ReadKey(true);
-                if (k.Key == ConsoleKey.Escape)
-                    break;
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 
+
+        }
+
+        static void RenderNewGeneration(string[] strings)
+        {
+            Console.SetCursorPosition(_origCol, _origRow);
+            foreach (var line in strings)
+            {
+                Console.WriteLine(line);
             }
-            
-            
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GameOfLife
 
         static void Main(string[] args)
         {
-            var gameEngine = new GameEngine(new BoardGenerator(10, 10).Generate());
+            var gameEngine = new GameEngine(new BoardGenerator(20, 20).Generate());
             
             Console.WriteLine("Press ESC to stop");
 
